@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Итоги 2024</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Подключение кастомных шрифтов */
+    @font-face {
+      font-family: 'VerdanaBoldItalic';
+      src: local('Verdana'), local('Verdana-BoldItalic'), url('https://fonts.cdnfonts.com/s/70719/Verdana-BoldItalic.woff') format('woff');
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    @font-face {
+      font-family: 'GothamBold';
+      src: url('https://fonts.cdnfonts.com/s/70719/Gotham-Bold.woff') format('woff');
+      font-weight: bold;
+    }
+
+    @font-face {
+      font-family: 'MontserratLight';
+      src: url('https://fonts.cdnfonts.com/s/70719/Montserrat-Light.woff') format('woff');
+      font-weight: 300;
+    }
+
+    /* Основной фон-анимация градиента */
+    .gradient-animation {
+      background-size: 200% 200%;
+      animation: gradient-flow 3s ease infinite;
+    }
+
+    @keyframes gradient-flow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Плавная анимация текста на первом слайде */
+    .fade-in-smooth {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fade-in-smooth 2s ease-out forwards; /* Увеличена продолжительность до 2 секунд */
+    }
+
+    @keyframes fade-in-smooth {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Появление текста */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fade-in 0.6s ease forwards;
+    }
+
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #slides {
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.6s ease;
+      opacity: 1;
+      filter: brightness(0.2); /* Темный начальный фон */
+    }
+
+    .slide.visible {
+      filter: brightness(1); /* Для видимых слайдов эффект яркости */
+    }
+  </style>
+</head>
+<body>
+  <div id="slides">
+    <!-- Слайд 1 -->
+    <div class="slide gradient-animation bg-gradient-to-br from-black via-gray-800 to-gray-900 text-white flex items-center justify-center text-center">
+      <h1 class="verdana-bold-italic text-6xl font-bold italic leading-snug fade-in-smooth first-slide-text">Итоги нашего года 2024</h1>
+    </div>
+    <!-- Слайд 2 -->
+    <div class="slide gradient-animation bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 text-white flex flex-col items-center justify-center text-center">
+      <h2 class="gotham-bold text-5xl font-bold mb-4">Слайд 2</h2>
+      <p class="montserrat-light text-xl font-light">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="gotham-bold text-3xl font-bold mt-2">12345</p>
+    </div>
+    <!-- Слайд 3 -->
+    <div class="slide gradient-animation bg-gradient-to-br from-green-400 via-teal-500 to-blue-600 text-white flex flex-col items-center justify-center text-center">
+      <h2 class="gotham-bold text-5xl font-bold mb-4">Слайд 3</h2>
+      <p class="montserrat-light text-xl font-light">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <p class="gotham-bold text-3xl font-bold mt-2">67890</p>
+    </div>
+    <!-- Слайд 4 -->
+    <div class="slide gradient-animation bg-gradient-to-br from-yellow-500 via-orange-500 to-red-600 text-white flex flex-col items-center justify-center text-center">
+      <h2 class="gotham-bold text-5xl font-bold mb-4">Слайд 4</h2>
+      <p class="montserrat-light text-xl font-light">Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+      <p class="gotham-bold text-3xl font-bold mt-2">11223</p>
+    </div>
+    <!-- Слайд 5 -->
+    <div class="slide gradient-animation bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white flex items-center justify-center text-center">
+      <h2 class="verdana-bold-italic text-5xl font-bold italic leading-snug fade-in-smooth last-slide-text">Спасибо за внимание!</h2>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const visitedSlides = new Set();
+
+    // Установка начальных позиций для всех слайдов
+    function initializeSlides() {
+      slides.forEach((slide, index) => {
+        slide.style.transform = `translateY(${index === 0 ? 0 : 100}%)`;
+        slide.style.opacity = 1;
+        slide.style.filter = 'brightness(0.2)'; // Темный начальный фон для всех слайдов
+      });
+      showSlide(0); // Устанавливаем первый слайд как активный при загрузке
+    }
+
+    // Функция переключения слайдов
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.style.transform = `translateY(${(i - index) * 100}%)`;
+
+        // Запуск анимации только для активного слайда
+        if (i === index && !visitedSlides.has(i)) {
+          setTimeout(() => {
+            slide.style.opacity = 1; // Слайд становится видимым
+            slide.style.filter = 'brightness(1)'; // Убираем темный фильтр
+
+            // Применяем эффект отблеска только для первого и последнего слайда
+            if (i === 0 || i === slides.length - 1) {
+              slide.classList.add('dark-to-bright');
+            }
+          }, i === 0 ? 2000 : 700); // Задержка 2 секунды для первого слайда, 0.7 для других
+          visitedSlides.add(i);
+
+          // Добавляем анимацию текста только для слайдов 2, 3 и 4, когда они становятся активными
+          if (i === 1 || i === 2 || i === 3) {
+            const texts = slide.querySelectorAll('.montserrat-light, .gotham-bold');
+            texts.forEach((text, index) => {
+              text.classList.add('fade-in');
+              text.style.animationDelay = '0.7s'; // Задержка анимации 0.7 секунды
+            });
+          }
+
+          // Для первого слайда добавим задержку появления текста
+          if (i === 0) {
+            const firstSlideText = slide.querySelector('.first-slide-text');
+            firstSlideText.classList.add('fade-in-smooth');
+            firstSlideText.style.animationDelay = '2s'; // Задержка текста на первом слайде
+          }
+        } else {
+          slide.style.filter = 'brightness(1)'; // Убираем темный фильтр для уже просмотренных
+        }
+      });
+      currentSlide = index;
+    }
+
+    // Обработчики свайпов
+    let startY = 0;
+    let endY = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      startY = e.touches[0].clientY;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      endY = e.changedTouches[0].clientY;
+      const direction = startY - endY;
+
+      if (direction > 50 && currentSlide < slides.length - 1) {
+        // Свайп вниз
+        showSlide(currentSlide + 1);
+      } else if (direction < -50 && currentSlide > 0) {
+        // Свайп вверх
+        showSlide(currentSlide - 1);
+      }
+    });
+
+    // Инициализация слайдов
+    initializeSlides();
+  </script>
+</body>
+</html>
